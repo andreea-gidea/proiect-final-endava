@@ -9,8 +9,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @Table(name = "admins")
-public class AdminEntity extends User{
-
+public class AdminEntity extends User {
 
 
 }

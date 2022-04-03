@@ -1,5 +1,6 @@
 package com.endava.proiectfinalandreea.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -19,7 +20,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "date_account")
+    @Column(name = "date_account", columnDefinition = "varchar(255) default LocalDate.now()")
     private LocalDate dateCreatedAcc=LocalDate.now();
 
 }

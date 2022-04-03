@@ -15,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "clients_companies")
-public class CompanyEntity extends Customer{
+public class CompanyEntity extends Customer {
 
 
     @Column(name = "company_billing_details")

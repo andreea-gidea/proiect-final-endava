@@ -44,7 +44,7 @@ public class OrderEntity {
     private SupplierEntity supplier;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<LinesOfOrderEntity> orderEntities = new ArrayList<>();
+    private List<LinesOfOrderEntity> orderLinesEntities = new ArrayList<>();
 
     @CreatedDate
     private LocalDateTime createdAt;

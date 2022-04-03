@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "suppliers")
-public class SupplierEntity extends User{
+public class SupplierEntity extends User {
 
     @Column(name = "company_description")
     private String companyDescription;

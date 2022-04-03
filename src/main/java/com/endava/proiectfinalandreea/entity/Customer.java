@@ -7,7 +7,7 @@ import javax.persistence.MappedSuperclass;
 
 @Data
 @MappedSuperclass
-public class Customer extends User{
+public class Customer extends User {
 
     @Column(name = "delivery_address")
     private String deliveryAddress;

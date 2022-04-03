@@ -28,7 +28,7 @@ public class LinesOfOrderEntity {
     private OrderEntity order;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="oroduct_id")
+    @JoinColumn(name ="product_id")
     private ProductEntity product;
 
     @Column(name = "number_of_products")

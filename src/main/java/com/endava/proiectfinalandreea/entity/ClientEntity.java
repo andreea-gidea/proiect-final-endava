@@ -1,6 +1,8 @@
 package com.endava.proiectfinalandreea.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -12,6 +14,7 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "individual_clients")
 public class ClientEntity extends Customer {
@@ -23,7 +26,6 @@ public class ClientEntity extends Customer {
     )
     @JsonIgnore
     private List<OrderEntity> orders = new ArrayList<>();
-
 
 
 }
