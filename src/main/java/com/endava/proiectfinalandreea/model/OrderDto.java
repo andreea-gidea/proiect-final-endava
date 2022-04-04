@@ -1,6 +1,7 @@
 package com.endava.proiectfinalandreea.model;
 
 
+import com.endava.proiectfinalandreea.entity.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,9 +20,9 @@ public class OrderDto {
 
     private LocalDate orderingDate = LocalDate.now();
 
-    private LocalDate shippingDate = LocalDate.now().plusDays(1);
+    private OrderStatus orderStatus = OrderStatus.NEW;
 
-    private ClientDto client;
+    private UserDto client;
 
     private SupplierDto supplier;
 
