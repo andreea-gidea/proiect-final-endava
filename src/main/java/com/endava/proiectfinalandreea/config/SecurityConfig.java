@@ -19,8 +19,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic();
+//        http.authorizeRequests()
+//                .mvcMatchers("/supplier").hasAnyRole("CLIENT")
+//                .anyRequest()
+//                .authenticated();
+
+//        http.csrf()
+//                .ignoringAntMatchers("/users")
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/users").permitAll();
+
+        http.csrf().disable();
         http.authorizeRequests()
-                .mvcMatchers("/supplier").hasAnyRole("CLIENT")
+//                .mvcMatchers("/user/get-all").hasRole("ADMIN")
+//                .mvcMatchers("/user/supplier").hasRole("ADMIN")
+                .mvcMatchers("/orders/create-order").hasAnyRole("ADMIN" ,"CLIENT","COMPANY_CLIENT")
+//                .mvcMatchers("/user/admin").permitAll()
+//                .mvcMatchers("/user/individual-client").permitAll()
+//                .mvcMatchers("/user/company-client").permitAll()
                 .anyRequest()
                 .authenticated();
     }

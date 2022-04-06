@@ -37,7 +37,7 @@ public class UserEntity {
             orphanRemoval = true
     )
     @JsonIgnore
-    private List<OrderEntity> orders = new ArrayList<>();
+    private List<OrderEntity> ordersOfClient = new ArrayList<>();
 
     @Column(name = "delivery_address")
     private String deliveryAddress;
@@ -55,6 +55,5 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private List<Authority> authorities;
-
 
 }

@@ -14,8 +14,6 @@ public class LinesOfOrderDto {
 
     private Integer id;
 
-    private OrderDto order;
-
     private ProductDto product;
 
     @Min(1)

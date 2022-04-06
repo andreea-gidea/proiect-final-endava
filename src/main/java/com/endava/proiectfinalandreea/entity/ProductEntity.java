@@ -25,5 +25,4 @@ public class ProductEntity {
     @Column(name = "product_description")
     private String productDescription;
 
-    private Integer price;
 }

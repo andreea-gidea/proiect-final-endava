@@ -2,6 +2,7 @@ package com.endava.proiectfinalandreea.model;
 
 
 import com.endava.proiectfinalandreea.entity.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,13 +15,14 @@ import java.util.List;
 @Builder
 @Data
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class OrderDto {
 
     private Integer orderNumber;
 
-    private LocalDate orderingDate = LocalDate.now();
+    private LocalDate orderingDate;
 
-    private OrderStatus orderStatus = OrderStatus.NEW;
+    private OrderStatus orderStatus;
 
     private UserDto client;
 

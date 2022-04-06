@@ -1,15 +1,19 @@
 package com.endava.proiectfinalandreea.mapper;
 
-import com.endava.proiectfinalandreea.entity.OrderEntity;
-import com.endava.proiectfinalandreea.model.OrderDto;
+import com.endava.proiectfinalandreea.entity.LinesOfOrderEntity;
+import com.endava.proiectfinalandreea.model.LinesOfOrderDto;
 import org.mapstruct.Mapper;
+
+import java.util.List;
 
 
 @Mapper(uses = {OrderMapper.class, ProductMapper.class}, componentModel = "spring")
 public interface LinesOfOrderMapper {
 
-    OrderDto mapEntityToDto(OrderEntity source);
+    LinesOfOrderDto mapEntityToDto(LinesOfOrderEntity source);
 
-    OrderEntity mapDtoToEntity(OrderDto source);
+    LinesOfOrderEntity mapDtoToEntity(LinesOfOrderDto source);
+
+    List<LinesOfOrderEntity> mapListDtoToListEntity(List<LinesOfOrderDto> source);
 
 }

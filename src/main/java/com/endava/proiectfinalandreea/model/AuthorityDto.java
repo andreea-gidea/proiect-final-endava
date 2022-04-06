@@ -1,18 +1,18 @@
 package com.endava.proiectfinalandreea.model;
 
-
+import com.endava.proiectfinalandreea.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+
 @Builder
 @Data
 @AllArgsConstructor
-public class ProductDto {
+public class AuthorityDto {
 
     private Integer id;
 
-    private String productName;
+    private String name;
 
-    private String productDescription;
 }
