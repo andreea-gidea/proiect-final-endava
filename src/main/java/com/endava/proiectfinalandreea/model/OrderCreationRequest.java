@@ -8,8 +8,6 @@ import java.util.List;
 
 public class OrderCreationRequest {
 
-//    private Integer clientId;
-
     private List<ProductInfo> linesOfOrder;
 
 

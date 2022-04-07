@@ -1,6 +1,8 @@
 package com.endava.proiectfinalandreea.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +14,7 @@ import java.util.List;
 @Builder
 @Data
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class SupplierDto {
 
     private int id;
@@ -20,6 +23,7 @@ public class SupplierDto {
     private String userName;
 
     @NotBlank
+    @JsonIgnore
     private String password;
 
     private LocalDate dateCreatedAcc;

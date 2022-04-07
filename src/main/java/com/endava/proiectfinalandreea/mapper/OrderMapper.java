@@ -17,8 +17,5 @@ public interface OrderMapper {
 
     List<OrderDto> mapListEntityToListDto(List<OrderEntity> source);
 
-    List<OrderEntity> mapListDtoToListEntity(List<OrderDto> source);
-
-
 
 }

@@ -29,7 +29,7 @@ public class UserEntity {
     private String password;
 
     @Column(name = "date_account")
-    private LocalDate dateCreatedAcc=LocalDate.now();
+    private LocalDate dateCreatedAcc = LocalDate.now();
 
     @OneToMany(
             mappedBy = "client",

@@ -12,32 +12,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic();
-//        http.authorizeRequests()
-//                .mvcMatchers("/supplier").hasAnyRole("CLIENT")
-//                .anyRequest()
-//                .authenticated();
 
-//        http.csrf()
-//                .ignoringAntMatchers("/users")
-//                .and()
-//                .authorizeRequests()
-//                .antMatchers("/users").permitAll();
 
-        http.csrf().disable();
+//        http.csrf().disable();
         http.authorizeRequests()
-//                .mvcMatchers("/user/get-all").hasRole("ADMIN")
-//                .mvcMatchers("/user/supplier").hasRole("ADMIN")
-                .mvcMatchers("/orders/create-order").hasAnyRole("ADMIN" ,"CLIENT","COMPANY_CLIENT")
-//                .mvcMatchers("/user/admin").permitAll()
-//                .mvcMatchers("/user/individual-client").permitAll()
-//                .mvcMatchers("/user/company-client").permitAll()
+                .antMatchers("/user/get-all").hasRole("ADMIN")
+                .antMatchers("/user/supplier").hasRole("ADMIN")
+                .antMatchers("/user/admin").hasRole("ADMIN")
+                .antMatchers("/orders/create-order").hasAnyRole("CLIENT", "COMPANY_CLIENT")
+                .antMatchers("/orders/get-my-orders").hasAnyRole("CLIENT", "COMPANY_CLIENT")
+                .antMatchers("/orders/get-new-orders").hasRole("SUPPLIER")
+                .antMatchers("/orders/get-all-orders-assigned-to-supplier").hasRole("SUPPLIER")
+                .antMatchers("/orders/get-all-orders").hasRole("ADMIN")
+                .antMatchers("/orders/change-status/**").hasRole("SUPPLIER")
+                .antMatchers("/user/individual-client").permitAll()
+                .antMatchers("/user/company-client").permitAll()
                 .anyRequest()
                 .authenticated();
     }

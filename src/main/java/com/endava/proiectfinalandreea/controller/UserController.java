@@ -27,26 +27,27 @@ public class UserController {
     }
 
     @PostMapping("/admin")
-    public UserDto createAndminUser(@RequestBody UserAdminDtoCreateRequest userAdminDtoCreateRequest){
+    public UserDto createAndminUser(@RequestBody UserAdminDtoCreateRequest userAdminDtoCreateRequest) {
         return userService.createAdminUser(userAdminDtoCreateRequest);
     }
 
     @PostMapping("/individual-client")
-    public UserDto createIndividualClientUser(@RequestBody UserIndividualClientDtoCreateRequest userIndividualClientDtoCreateRequest){
+    public UserDto createIndividualClientUser(@RequestBody UserIndividualClientDtoCreateRequest userIndividualClientDtoCreateRequest) {
         return userService.createIndividualClientUser(userIndividualClientDtoCreateRequest);
     }
 
     @PostMapping("/company-client")
-    public UserDto createIndividualClientUser(@RequestBody UserCompanyClientDtoCreateRequest userCompanyClientDtoCreateRequest){
+    public UserDto createIndividualClientUser(@RequestBody UserCompanyClientDtoCreateRequest userCompanyClientDtoCreateRequest) {
         return userService.createCompanyClientUser(userCompanyClientDtoCreateRequest);
     }
+
     @PostMapping("/supplier")
-    public UserDto createSupplierUser(@RequestBody UserSupplierDtoCreateRequest userSupplierDtoCreateRequest){
+    public UserDto createSupplierUser(@RequestBody UserSupplierDtoCreateRequest userSupplierDtoCreateRequest) {
         return userService.createSupplierClientUser(userSupplierDtoCreateRequest);
     }
 
     @DeleteMapping("/{userId}")
-    public void deletePost(@PathVariable(name = "userId") Integer userId){
+    public void deletePost(@PathVariable(name = "userId") Integer userId) {
         userService.deleteUser(userId);
     }
 

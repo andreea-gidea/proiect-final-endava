@@ -31,7 +31,7 @@ public class OrderEntity {
     private LocalDate orderingDate = LocalDate.now();
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "order_status",length = 32, columnDefinition = "varchar(32) default 'NEW'")
+    @Column(name = "order_status", length = 32, columnDefinition = "varchar(32) default 'NEW'")
     private OrderStatus orderStatus;
 
     @ManyToOne(fetch = FetchType.EAGER)

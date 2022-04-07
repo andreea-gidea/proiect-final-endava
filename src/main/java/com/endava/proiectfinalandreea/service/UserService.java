@@ -26,14 +26,7 @@ public class UserService {
     }
 
     public UserDto getUser(Integer userId) {
-        return userMapper.mapEntityToDto(userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("No such id for a user  "+userId)));
-    }
-    public UserDto createUser(UserDto user) {
-
-        UserEntity userEntity = userMapper.mapDtoToEntity(user);
-        UserEntity savedEntity = userRepository.save(userEntity);
-
-        return userMapper.mapEntityToDto(savedEntity);
+        return userMapper.mapEntityToDto(userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("No such id for a user  " + userId)));
     }
 
     public UserDto createAdminUser(UserAdminDtoCreateRequest user) {
@@ -44,6 +37,7 @@ public class UserService {
 
         return userMapper.mapEntityToDto(savedEntity);
     }
+
     public UserDto createIndividualClientUser(UserIndividualClientDtoCreateRequest user) {
 
         UserEntity userEntity = userMapper.mapIndiovidualClientDtoToEntityUser(user);
@@ -51,7 +45,6 @@ public class UserService {
 
         return userMapper.mapEntityToDto(savedEntity);
     }
-
 
 
     public UserDto createCompanyClientUser(UserCompanyClientDtoCreateRequest user) {
@@ -69,10 +62,11 @@ public class UserService {
 
         return userMapper.mapEntityToDto(savedEntity);
     }
+
     private UserEntity saveUserAndRole(UserEntity userEntity, String role) {
         UserEntity savedEntity = userRepository.save(userEntity);
         Authority authority = new Authority();
-        authority.setClient(userRepository.findById(savedEntity.getId()).orElseThrow(()->new UserNotFoundException("User not found for given Id")));
+        authority.setClient(userRepository.findById(savedEntity.getId()).orElseThrow(() -> new UserNotFoundException("User not found for given Id")));
         authority.setName(role);
         authorityRepository.save(authority);
         return savedEntity;
@@ -82,7 +76,6 @@ public class UserService {
     public void deleteUser(Integer userId) {
         userRepository.deleteById(userId);
     }
-
 
 
 }

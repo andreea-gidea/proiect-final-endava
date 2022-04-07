@@ -22,6 +22,7 @@ public class UserDto {
     private String userName;
 
     @NotBlank
+    @JsonIgnore
     private String password;
 
     @CreatedDate
