@@ -1,4 +1,4 @@
-package com.endava.proiectfinalandreea;
+package com.endava.proiectfinalandreea.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

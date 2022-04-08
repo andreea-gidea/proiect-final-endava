@@ -11,6 +11,8 @@ import com.endava.proiectfinalandreea.exeption.UserNotFoundException;
 import com.endava.proiectfinalandreea.mapper.OrderMapper;
 import com.endava.proiectfinalandreea.model.OrderCreationRequest;
 import com.endava.proiectfinalandreea.model.OrderDto;
+import com.endava.proiectfinalandreea.model.ProductInfo;
+import com.endava.proiectfinalandreea.repository.LinesOfOrderRepository;
 import com.endava.proiectfinalandreea.repository.OrderRepository;
 import com.endava.proiectfinalandreea.repository.ProductRepository;
 import com.endava.proiectfinalandreea.repository.UserRepository;
@@ -32,6 +34,7 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final LinesOfOrderRepository linesOfOrderRepository;
 
     public List<OrderDto> getAllOrders() {
 
@@ -78,7 +81,86 @@ public class OrderService {
         return ordersDTO;
     }
 
+    public OrderDto addToOrder(OrderCreationRequest orderAddMoreItemsRequest , Integer orderID) {
+        if (getAllOrdersOfRequestingClient().stream().anyMatch(o -> orderID == o.getOrderNumber())) {
+
+            OrderEntity order = orderRepository.findById(orderID).orElseThrow(() -> new OrderNotFoundException("No order found for ID  " + orderID));
+            List<ProductInfo> linesOfOrder = orderAddMoreItemsRequest.getLinesOfOrder();
+            List<LinesOfOrderEntity> productsAlreadyInOrder = order.getOrderLinesEntities();
+            List<LinesOfOrderEntity> productToBeAdded = new ArrayList<>();
+            for (ProductInfo p : linesOfOrder) {
+                List<Object> toReturn = findIfProductsAreInOrder(productsAlreadyInOrder, p);
+
+                Boolean isProductAlreadyInOrder = (Boolean) toReturn.get(0);
+                Integer whereIsTheProduct = (Integer) toReturn.get(1);
+
+                if (isProductAlreadyInOrder) {
+                    productsAlreadyInOrder.get(whereIsTheProduct).setNumberOfProducts(productsAlreadyInOrder.get(whereIsTheProduct).getNumberOfProducts() + p.getNumberOfProducts());
+                } else {
+                    productToBeAdded.add(new LinesOfOrderEntity(order, productRepository.findById(p.getProductID()).orElseThrow(() -> new ProductNotFoundException("No such id for a product  " + p.getProductID())), p.getNumberOfProducts()));
+                }
+                order.getOrderLinesEntities().addAll(productToBeAdded);
+
+            }
+            OrderDto orderDto = orderMapper.mapEntityToDto(orderRepository.save(order));
+
+            return orderDto;
+        }else throw new OrderNotFoundException("No order to be modified");
+    }
+
     @Transactional
+    public void removeFromOrder(OrderCreationRequest orderAddMoreItemsRequest, Integer orderID) {
+        if (getAllOrdersOfRequestingClient().stream().anyMatch(o -> orderID == o.getOrderNumber())) {
+
+            OrderEntity order = orderRepository.findById(orderID).orElseThrow(() -> new OrderNotFoundException("No order found for ID  " + orderID));
+            List<ProductInfo> productInfos = orderAddMoreItemsRequest.getLinesOfOrder();
+            List<LinesOfOrderEntity> productsAlreadyInOrder = order.getOrderLinesEntities();
+            for (ProductInfo p : productInfos) {
+                List<Object> toReturn = findIfProductsAreInOrder(productsAlreadyInOrder, p);
+
+                Boolean isProductAllreadyInOrder = (Boolean) toReturn.get(0);
+                Integer whereIsTheProduct = (Integer) toReturn.get(1);
+
+                if (isProductAllreadyInOrder) {
+                    if (productsAlreadyInOrder.get(whereIsTheProduct).getNumberOfProducts() > p.getNumberOfProducts()) {
+                        productsAlreadyInOrder.get(whereIsTheProduct).setNumberOfProducts(productsAlreadyInOrder.get(whereIsTheProduct).getNumberOfProducts() - p.getNumberOfProducts());
+                    } else if (productsAlreadyInOrder.get(whereIsTheProduct).getNumberOfProducts().equals(p.getNumberOfProducts())) {
+                        linesOfOrderRepository.deleteById(productsAlreadyInOrder.get(whereIsTheProduct).getId());
+                        productsAlreadyInOrder.remove(whereIsTheProduct);
+                    } else
+                        throw new ProductNotFoundException("You are trying to remove more products than existing number " + p.getNumberOfProducts());
+                } else {
+                    throw new ProductNotFoundException("The product that you are trying to delete from the order, is not a part of the order: plant ID " + p.getProductID());
+                }
+                if (productsAlreadyInOrder.isEmpty()) {
+                    orderRepository.deleteById(orderID);
+                }
+            }
+        }else throw new OrderNotFoundException("No order to be modified");
+    }
+
+    private List<Object> findIfProductsAreInOrder(List<LinesOfOrderEntity> productsAlreadyInOrder, ProductInfo p) {
+        boolean isProdAlreadyInOrder = false;
+        int whereIsTheProd = 0;
+        for (LinesOfOrderEntity o : productsAlreadyInOrder) {
+            if (p.getProductID().equals(o.getProduct().getId())) {
+                isProdAlreadyInOrder = true;
+                whereIsTheProd = productsAlreadyInOrder.indexOf(o);
+            }
+        }
+        List<Object> toReturn = new ArrayList<>();
+        toReturn.add(isProdAlreadyInOrder);
+        toReturn.add(whereIsTheProd);
+        return toReturn;
+    }
+
+    @Transactional
+    public void deleteOrder(Integer orderId) {
+        if (getAllOrdersOfRequestingClient().stream().anyMatch(o -> orderId == o.getOrderNumber())) {
+            orderRepository.deleteById(orderId);
+        } else throw new OrderNotFoundException("No order you have access to");
+    }
+
     public OrderDto changeOrderStatusToAnalysis(Integer orderId) {
 
         List<OrderEntity> orders = getOrderEntitiesWithStatus(OrderStatus.NEW);

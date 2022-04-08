@@ -30,6 +30,19 @@ public class OrderController {
         return orderService.createOrder(orderCreationRequest);
     }
 
+    @PutMapping("/get-my-orders/{orderID}/add-to-order")
+    public OrderDto addToOwnOrder(@PathVariable(name = "orderID") Integer orderID, @RequestBody OrderCreationRequest productsToAdd) {
+        return orderService.addToOrder(productsToAdd , orderID);
+    }
+    @PutMapping("/get-my-orders/{orderID}/remove-from-order")
+    public void removeFromOwnOrder(@PathVariable(name = "orderID") Integer orderID, @RequestBody OrderCreationRequest productsToRemove) {
+        orderService.removeFromOrder(productsToRemove , orderID);
+    }
+    @DeleteMapping("/get-my-orders/{orderID}/delete-order")
+    public void deleteOwnOrder(@PathVariable(name = "orderID") Integer orderID) {
+        orderService.deleteOrder(orderID);
+    }
+
     @GetMapping("/get-new-orders")
     public List<OrderDto> getNewOrders() {
         return orderService.getAllOrdersWithStatusNew();

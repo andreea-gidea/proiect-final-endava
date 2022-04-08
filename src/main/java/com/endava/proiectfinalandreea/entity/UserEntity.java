@@ -16,13 +16,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "users" , uniqueConstraints = @UniqueConstraint(columnNames = {"user_name"}))
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "user_name")
+    @Column(name = "user_name",unique = true)
     private String userName;
 
     @Column(name = "password")
@@ -55,5 +55,4 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private List<Authority> authorities;
-
 }
